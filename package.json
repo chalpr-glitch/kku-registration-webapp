@@ -1,0 +1,14 @@
+{
+  "name": "kku-registration-webapp",
+  "version": "1.0.0",
+  "description": "Registration WebApp for KKU Academic Services",
+  "main": "build.js",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "npx -y browser-sync start --server 'src' --files 'src/**/*'"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.3"
+  }
+}

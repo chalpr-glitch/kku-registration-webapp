@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ลงทะเบียนเข้าร่วมกิจกรรม - สำนักบริการวิชาการ มข.</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Local Stylesheet (will be inlined during build) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Glows -->
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i data-lucide="graduation-cap"></i>
+        </div>
+        <div class="logo-text">
+          <h1>สำนักบริการวิชาการ</h1>
+          <p>มหาวิทยาลัยขอนแก่น (KKU OAS)</p>
+        </div>
+      </div>
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-target="registration-view">
+          <i data-lucide="user-check"></i> ลงทะเบียน
+        </button>
+        <button class="tab-btn" data-target="dashboard-view" id="dashboard-tab">
+          <i data-lucide="bar-chart-3"></i> แดชบอร์ด
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="app-container">
+    
+    <!-- REGISTRATION VIEW -->
+    <section id="registration-view" class="view-panel active">
+      <!-- Event Hero Card -->
+      <div class="event-hero-card">
+        <span class="badge">โครงการพัฒนาบุคลากร ประจำปีงบประมาณ 2569</span>
+        <h2 class="event-title">กิจกรรม "การแลกเปลี่ยนเรียนรู้การดำเนินงานภายในองค์กร"</h2>
+        <p class="event-subtitle">ประจำเดือนมิถุนายน (ผู้บริหารพบบุคลากร)</p>
+        
+        <div class="event-details-grid">
+          <div class="detail-item">
+            <div class="detail-icon"><i data-lucide="calendar"></i></div>
+            <div class="detail-text">
+              <strong>วันอังคารที่ 23 มิถุนายน 2569</strong>
+              <span>เวลา 10.00 น. เป็นต้นไป</span>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon"><i data-lucide="map-pin"></i></div>
+            <div class="detail-text">
+              <strong>ห้องประชุมมณีเทวา ชั้น 5</strong>
+              <span>สำนักบริการวิชาการ มหาวิทยาลัยขอนแก่น</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration Steps Card -->
+      <div class="card glass-card reg-flow-card">
+        <!-- Progress Steps -->
+        <div class="steps-progress" style="max-width: 400px; margin: 0 auto 36px;">
+          <div class="step-progress-item active" id="step-dot-1">
+            <span class="step-num">1</span>
+            <span class="step-label">ค้นหารายชื่อ</span>
+          </div>
+          <div class="step-line" id="step-line-1"></div>
+          <div class="step-progress-item" id="step-dot-2">
+            <span class="step-num">2</span>
+            <span class="step-label">ยืนยันลงทะเบียน</span>
+          </div>
+        </div>
+
+        <!-- STEP 1: Search Name -->
+        <div class="step-content active" id="step-1">
+          <h3 class="step-title">กรองจากหน่วยงาน หรือพิมพ์ค้นหารายชื่อของคุณ</h3>
+          
+          <div class="search-filters-row" style="margin-bottom: 16px;">
+            <select id="search-dept-filter" class="select-filter" style="width: 100%; padding: 14px; font-size: 15px; border-radius: var(--radius-md); background: rgba(255, 255, 255, 0.04); border: 1px solid var(--card-border); color: white; outline: none; cursor: pointer;">
+              <option value="">-- แสดงบุคลากรทุกหน่วยงาน/ภารกิจ --</option>
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="search-box-container">
+            <div class="search-input-wrapper">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" id="name-search" placeholder="พิมพ์ชื่อ-นามสกุล หรือ อีเมล มข. เพื่อค้นหา..." autocomplete="off">
+              <button class="clear-search-btn" id="clear-search" style="display: none;">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+            <!-- Search Results Dropdown -->
+            <div class="search-dropdown" id="search-dropdown" style="display: none;">
+              <ul class="dropdown-list" id="dropdown-list">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+          </div>
+
+          <div class="loading-state" id="loading-personnel" style="display: none;">
+            <div class="spinner"></div>
+            <p>กำลังโหลดรายชื่อบุคลากร...</p>
+          </div>
+          <div class="error-state" id="load-error" style="display: none;">
+            <i data-lucide="alert-triangle"></i>
+            <p>ไม่สามารถโหลดรายชื่อได้ กรุณาลองใหม่อีกครั้ง</p>
+            <button class="btn btn-secondary btn-sm" id="retry-load-btn">โหลดใหม่</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Confirm Profile -->
+        <div class="step-content" id="step-2">
+          <h3 class="step-title">ตรวจสอบและยืนยันการลงทะเบียนของคุณ</h3>
+          <div class="profile-preview-card" id="profile-preview">
+            <!-- Dynamically populated profile -->
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" id="back-to-step-1">
+              <i data-lucide="arrow-left"></i> ย้อนกลับ
+            </button>
+            <button class="btn btn-success" id="submit-reg-btn">
+              <span class="btn-text">ยืนยันลงทะเบียนเข้าร่วม</span>
+              <div class="btn-spinner" style="display: none;"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUCCESS TICKET (Hidden by default) -->
+      <div class="success-ticket-container" id="success-view" style="display: none;">
+        <div class="ticket glass-card">
+          <div class="ticket-header">
+            <div class="success-icon-wrapper">
+              <i data-lucide="check-circle-2" class="success-checkmark"></i>
+            </div>
+            <h3>ลงทะเบียนเข้าร่วมกิจกรรมสำเร็จ</h3>
+            <p>กรุณาเซฟรูปตั๋วนี้เพื่อนำไปแสดงหน้างาน</p>
+          </div>
+          <div class="ticket-divider">
+            <span class="circle circle-left"></span>
+            <span class="dashed-line"></span>
+            <span class="circle circle-right"></span>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-event">
+              <h4>กิจกรรม "การแลกเปลี่ยนเรียนรู้การดำเนินงานภายในองค์กร"</h4>
+              <p><i data-lucide="map-pin"></i> ห้องประชุมมณีเทวา ชั้น 5</p>
+            </div>
+            <div class="ticket-user-details" id="ticket-user-info">
+              <!-- Dynamically populated ticket details -->
+            </div>
+          </div>
+          <div class="ticket-footer">
+            <button class="btn btn-primary btn-block" id="new-reg-btn">
+              <i data-lucide="user-plus"></i> ลงทะเบียนคนต่อไป
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD VIEW -->
+    <section id="dashboard-view" class="view-panel">
+      <!-- Admin Controls Bar -->
+      <div class="admin-bar-card glass-card">
+        <div class="admin-bar-content">
+          <span class="admin-status" id="admin-status-text">
+            <i data-lucide="shield-alert" class="icon-warning"></i> โหมดทั่วไป (สำหรับดูข้อมูลเท่านั้น)
+          </span>
+          <button class="btn btn-secondary btn-sm" id="btn-admin-login">
+            <i data-lucide="lock"></i> ปลดล็อกสิทธิ์แก้ไขข้อมูล
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="card glass-card stat-card">
+          <div class="stat-icon stat-blue"><i data-lucide="users"></i></div>
+          <div class="stat-data">
+            <span class="stat-title">บุคลากรทั้งหมด</span>
+            <strong class="stat-value" id="stat-total">0</strong>
+            <span class="stat-desc">รายชื่อในฐานข้อมูล</span>
+          </div>
+        </div>
+        <div class="card glass-card stat-card">
+          <div class="stat-icon stat-green"><i data-lucide="user-check"></i></div>
+          <div class="stat-data">
+            <span class="stat-title">ลงทะเบียนแล้ว</span>
+            <strong class="stat-value" id="stat-registered">0</strong>
+            <span class="stat-desc" id="stat-reg-percentage">0% เข้าร่วม</span>
+          </div>
+        </div>
+        <div class="card glass-card stat-card">
+          <div class="stat-icon stat-orange"><i data-lucide="user-x"></i></div>
+          <div class="stat-data">
+            <span class="stat-title">ยังไม่ได้ลงทะเบียน</span>
+            <strong class="stat-value" id="stat-pending">0</strong>
+            <span class="stat-desc" id="stat-pending-percentage">0% ยังไม่พร้อม</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Personnel Table Card -->
+        <div class="card glass-card table-card">
+          <div class="table-header">
+            <h3>รายชื่อและสถานะการลงทะเบียน</h3>
+            <div class="table-actions">
+              <!-- Print/Export Actions -->
+              <div class="filter-group">
+                <button class="btn btn-secondary btn-sm" id="btn-print-report" title="พิมพ์รายงานแบบกระดาษ">
+                  <i data-lucide="printer"></i> พิมพ์รายงาน
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btn-export-csv" title="ดาวน์โหลดไฟล์ Excel/CSV">
+                  <i data-lucide="download"></i> ดาวน์โหลด CSV
+                </button>
+              </div>
+              <!-- Filter Dropdowns -->
+              <div class="filter-group">
+                <select id="filter-dept" class="select-filter">
+                  <option value="">ทุกหน่วยงาน/ภารกิจ</option>
+                  <!-- Dynamically populated -->
+                </select>
+                <select id="filter-status" class="select-filter">
+                  <option value="">ทุกสถานะ</option>
+                  <option value="registered">ลงทะเบียนแล้ว</option>
+                  <option value="pending">ยังไม่ได้ลงทะเบียน</option>
+                </select>
+              </div>
+              <!-- Search Table -->
+              <div class="table-search-wrapper">
+                <i data-lucide="search" class="table-search-icon"></i>
+                <input type="text" id="table-search" placeholder="ค้นหาตามชื่อ...">
+              </div>
+            </div>
+          </div>
+          
+          <div class="table-wrapper">
+            <table class="personnel-table" id="personnel-table">
+              <thead>
+                <tr>
+                  <th>ชื่อ-นามสกุล</th>
+                  <th>ตำแหน่ง/ฝ่าย</th>
+                  <th>หน่วยงาน</th>
+                  <th>สถานะการลงทะเบียน</th>
+                  <th>เวลาที่ลงทะเบียน</th>
+                  <th class="admin-only" style="display: none;">การจัดการ</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>© 2026 สำนักบริการวิชาการ มหาวิทยาลัยขอนแก่น. All rights reserved.</p>
+  </footer>
+
+  <!-- Admin Edit Registration Modal (Hidden overlay) -->
+  <div class="modal-overlay" id="edit-modal" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3><i data-lucide="edit-3"></i> แก้ไขข้อมูลการลงทะเบียน</h3>
+        <button class="close-modal-btn" id="close-edit-modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="admin-edit-form">
+        <input type="hidden" id="edit-uid">
+        <div class="profile-preview-card" style="margin-bottom: 20px; padding: 16px; font-size: 14px;">
+          <p style="margin-bottom: 6px;"><strong>ชื่อ-นามสกุล:</strong> <span id="edit-name" style="color: white; font-weight: 500;"></span></p>
+          <p style="margin-bottom: 6px;"><strong>ตำแหน่ง:</strong> <span id="edit-position" style="color: white;"></span></p>
+          <p><strong>หน่วยงาน:</strong> <span id="edit-dept" style="color: white;"></span></p>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="edit-status">สถานะการเข้าร่วม:</label>
+          <select id="edit-status" class="select-filter" style="width: 100%; padding: 12px; font-size: 15px; border-radius: 8px;">
+            <option value="registered">ลงทะเบียนแล้ว</option>
+            <option value="pending">ยังไม่ได้ลงทะเบียน (ยกเลิก)</option>
+          </select>
+        </div>
+        <!-- Details section removed as food preference is no longer needed -->
+        
+        <div class="form-actions" style="margin-top: 24px;">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-edit">ยกเลิก</button>
+          <button type="submit" class="btn btn-success" id="btn-save-edit">
+            <span class="btn-text">บันทึกการเปลี่ยนแปลง</span>
+            <div class="btn-spinner" style="display: none;"></div>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mock Database (For Local Development) -->
+  <script>
+    // Flag to determine if running inside GAS
+    window.isGoogleAppsScript = (typeof google !== 'undefined' && google.script && google.script.run);
+  </script>
+  <!-- Local Javascript File (will be inlined during build) -->
+  <script src="app.js"></script>
+</body>
+</html>

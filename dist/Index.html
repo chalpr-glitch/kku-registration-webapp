@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ลงทะเบียนเข้าร่วมกิจกรรม - สำนักบริการวิชาการ มข.</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Local Stylesheet (will be inlined during build) -->
+  <style>
+/* inlined style.css */
+/* ==========================================
+   Design System & Variable Definitions
+   ========================================== */
+:root {
+  --font-display: 'Outfit', 'Sarabun', sans-serif;
+  --font-body: 'Sarabun', sans-serif;
+
+  /* Color Palette */
+  --kku-orange: hsl(18, 95%, 52%);
+  --kku-orange-glow: hsla(18, 95%, 52%, 0.15);
+  --kku-orange-dark: hsl(18, 95%, 42%);
+  
+  --kku-blue: hsl(199, 89%, 48%);
+  --kku-blue-glow: hsla(199, 89%, 48%, 0.15);
+  
+  --bg-dark: hsl(222, 47%, 11%);
+  --card-bg: rgba(15, 23, 42, 0.65);
+  --card-border: rgba(255, 255, 255, 0.08);
+  
+  --text-main: hsl(210, 40%, 98%);
+  --text-muted: hsl(215, 20%, 65%);
+  --text-dark: hsl(215, 25%, 27%);
+  
+  --success: hsl(142, 71%, 45%);
+  --success-glow: hsla(142, 71%, 45%, 0.2);
+  --danger: hsl(350, 89%, 60%);
+  --warning: hsl(45, 93%, 47%);
+  
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  
+  --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ==========================================
+   Base Styles & Resets
+   ========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Background Glow Effects */
+.glow-bg {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: -1;
+  animation: pulse-glow 10s infinite alternate ease-in-out;
+}
+
+.glow-1 {
+  background: var(--kku-orange);
+  top: -100px;
+  right: -50px;
+}
+
+.glow-2 {
+  background: var(--kku-blue);
+  bottom: -150px;
+  left: -100px;
+  animation-delay: -5s;
+}
+
+@keyframes pulse-glow {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.2; }
+  100% { transform: scale(1.2) translate(30px, 50px); opacity: 0.3; }
+}
+
+/* ==========================================
+   Header & Tabs
+   ========================================== */
+.main-header {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--card-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  background: linear-gradient(135deg, var(--kku-orange), var(--kku-orange-dark));
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px var(--kku-orange-glow);
+  color: white;
+}
+
+.logo-icon i {
+  width: 24px;
+  height: 24px;
+}
+
+.logo-text h1 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(to right, #fff, hsl(210, 40%, 80%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-text p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.nav-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px;
+  border-radius: 30px;
+  border: 1px solid var(--card-border);
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.tab-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+.tab-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tab-btn.active {
+  background: var(--kku-orange);
+  color: white;
+  box-shadow: 0 4px 12px var(--kku-orange-glow);
+}
+
+/* ==========================================
+   App Layout & App Container
+   ========================================== */
+.app-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 32px auto;
+  padding: 0 24px;
+  flex: 1;
+}
+
+.view-panel {
+  display: none;
+}
+
+.view-panel.active {
+  display: block;
+  animation: fade-in 0.5s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================
+   Cards & Glassmorphism
+   ========================================== */
+.card {
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 24px;
+  border: 1px solid var(--card-border);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================
+   Event Hero Card
+   ========================================== */
+.event-hero-card {
+  background: linear-gradient(135deg, rgba(234, 88, 12, 0.15) 0%, rgba(2, 132, 199, 0.05) 100%);
+  border: 1px solid rgba(234, 88, 12, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.badge {
+  background: var(--kku-orange-glow);
+  color: var(--kku-orange);
+  border: 1px solid rgba(234, 88, 12, 0.3);
+  padding: 4px 12px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.event-title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.event-subtitle {
+  color: var(--text-muted);
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.event-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.detail-icon {
+  background: rgba(255, 255, 255, 0.05);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--kku-orange);
+}
+
+.detail-icon i {
+  width: 20px;
+  height: 20px;
+}
+
+.detail-text strong {
+  display: block;
+  font-size: 15px;
+  color: white;
+}
+
+.detail-text span {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ==========================================
+   Multi-step Wizard Progress
+   ========================================== */
+.steps-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+
+.step-progress-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--card-border);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.step-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: var(--transition-smooth);
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--card-border);
+  margin: 0 16px;
+  transform: translateY(-13px);
+  transition: var(--transition-smooth);
+}
+
+/* Step States */
+.step-progress-item.active .step-num {
+  background: var(--kku-orange);
+  border-color: var(--kku-orange);
+  color: white;
+  box-shadow: 0 0 15px var(--kku-orange-glow);
+}
+
+.step-progress-item.active .step-label {
+  color: var(--kku-orange);
+  font-weight: 600;
+}
+
+.step-progress-item.completed .step-num {
+  background: var(--kku-blue);
+  border-color: var(--kku-blue);
+  color: white;
+}
+
+.step-progress-item.completed .step-label {
+  color: var(--kku-blue);
+}
+
+.step-line.filled {
+  background: var(--kku-blue);
+}
+
+/* ==========================================
+   Form Fields & Search Autocomplete
+   ========================================== */
+.step-content {
+  display: none;
+}
+
+.step-content.active {
+  display: block;
+  animation: slide-in 0.4s ease;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.step-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: white;
+}
+
+.search-box-container {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  color: var(--text-muted);
+  width: 20px;
+  height: 20px;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  padding: 16px 48px 16px 54px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  color: white;
+  font-size: 16px;
+  font-family: var(--font-body);
+  transition: var(--transition-smooth);
+}
+
+.search-input-wrapper input:focus {
+  outline: none;
+  border-color: var(--kku-orange);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 4px var(--kku-orange-glow);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 18px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.clear-search-btn:hover {
+  color: white;
+}
+
+/* Dropdown */
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: hsl(222, 47%, 14%);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.dropdown-list {
+  list-style: none;
+}
+
+.dropdown-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background: rgba(234, 88, 12, 0.1);
+}
+
+.dropdown-item strong {
+  color: white;
+  font-size: 15px;
+}
+
+.dropdown-item span {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ==========================================
+   Step 2 & 3: Profile and Radio Forms
+   ========================================== */
+.profile-preview-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-field label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.profile-field span {
+  font-size: 16px;
+  color: white;
+  font-weight: 500;
+}
+
+/* Radio Cards Grid */
+.radio-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.radio-card {
+  cursor: pointer;
+}
+
+.radio-card input {
+  display: none;
+}
+
+.radio-card-content {
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: var(--transition-smooth);
+}
+
+.radio-card:hover .radio-card-content {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.radio-card input:checked + .radio-card-content {
+  border-color: var(--kku-orange);
+  background: rgba(234, 88, 12, 0.08);
+  box-shadow: 0 0 15px var(--kku-orange-glow);
+}
+
+.radio-icon {
+  color: var(--kku-orange);
+  background: rgba(234, 88, 12, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radio-details strong {
+  display: block;
+  font-size: 14px;
+  color: white;
+}
+
+.radio-details span {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+
+textarea {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 15px;
+  resize: vertical;
+  transition: var(--transition-smooth);
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--kku-orange);
+  box-shadow: 0 0 0 4px var(--kku-orange-glow);
+}
+
+/* ==========================================
+   Buttons
+   ========================================== */
+.btn {
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--transition-bounce);
+  font-family: var(--font-body);
+}
+
+.btn i {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-primary {
+  background: var(--kku-orange);
+  color: white;
+  box-shadow: 0 4px 15px var(--kku-orange-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(234, 88, 12, 0.3);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--card-border);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+  box-shadow: 0 4px 15px var(--success-glow);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+/* ==========================================
+   Spinners & Loading States
+   ========================================== */
+.loading-state, .error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--kku-orange);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s infinite linear;
+}
+
+/* ==========================================
+   Success Ticket
+   ========================================== */
+.success-ticket-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  animation: pop-up 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop-up {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.ticket {
+  width: 100%;
+  max-width: 440px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid var(--card-border);
+}
+
+.ticket-header {
+  padding: 32px 32px 24px;
+  text-align: center;
+}
+
+.success-icon-wrapper {
+  background: var(--success-glow);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.success-checkmark {
+  width: 36px;
+  height: 36px;
+}
+
+.ticket-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: white;
+}
+
+.ticket-header p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Ticket Cutout Divider */
+.ticket-divider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 20px;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  background: var(--bg-dark);
+  border-radius: 50%;
+  position: absolute;
+  z-index: 5;
+  border: 1px solid var(--card-border);
+}
+
+.circle-left {
+  left: -10px;
+}
+
+.circle-right {
+  right: -10px;
+}
+
+.dashed-line {
+  width: 100%;
+  height: 1px;
+  border-top: 2px dashed rgba(255, 255, 255, 0.15);
+  margin: 0 16px;
+}
+
+.ticket-body {
+  padding: 24px 32px 32px;
+}
+
+.ticket-event {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ticket-event h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 6px;
+}
+
+.ticket-event p {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ticket-event p i {
+  width: 14px;
+  height: 14px;
+}
+
+.ticket-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ticket-info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-info-item.full-width {
+  grid-column: span 2;
+}
+
+.ticket-info-item label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ticket-info-item span {
+  font-size: 14px;
+  color: white;
+  font-weight: 500;
+}
+
+.ticket-footer {
+  padding: 0 32px 32px;
+}
+
+/* ==========================================
+   Dashboard view (Admin panel)
+   ========================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 0;
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon i {
+  width: 26px;
+  height: 26px;
+}
+
+.stat-blue {
+  background: var(--kku-blue-glow);
+  color: var(--kku-blue);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+}
+
+.stat-green {
+  background: var(--success-glow);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.stat-orange {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.stat-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-title {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+  margin: 2px 0;
+}
+
+.stat-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Dashboard Content Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.table-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+}
+
+.select-filter {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+}
+
+.select-filter option {
+  background: hsl(222, 47%, 14%);
+  color: white;
+}
+
+.table-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.table-search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  width: 16px;
+  height: 16px;
+}
+
+.table-search-wrapper input {
+  padding: 8px 12px 8px 36px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: white;
+  font-size: 13px;
+  font-family: var(--font-body);
+  outline: none;
+  width: 200px;
+  transition: var(--transition-smooth);
+}
+
+.table-search-wrapper input:focus {
+  width: 260px;
+  border-color: var(--kku-orange);
+}
+
+/* Personnel Table */
+.table-wrapper {
+  overflow-x: auto;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.personnel-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.personnel-table th {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--card-border);
+  white-space: nowrap;
+}
+
+.personnel-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: white;
+  vertical-align: middle;
+}
+
+.personnel-table tr:hover td {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+/* Badges in table */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.registered {
+  background: var(--success-glow);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-badge.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+/* ==========================================
+   Footer
+   ========================================== */
+.app-footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 12px;
+  border-top: 1px solid var(--card-border);
+  background: rgba(15, 23, 42, 0.3);
+}
+
+/* ==========================================
+   Responsive adjustments
+   ========================================== */
+@media (max-width: 640px) {
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .app-container {
+    padding: 0 16px;
+    margin: 16px auto;
+  }
+  
+  .card, .event-hero-card {
+    padding: 20px;
+  }
+  
+  .steps-progress {
+    margin-bottom: 24px;
+  }
+  
+  .step-label {
+    display: none; /* Hide labels on tiny screens */
+  }
+  
+  .step-line {
+    transform: translateY(0);
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .form-actions button {
+    width: 100%;
+  }
+  
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .table-actions {
+    width: 100%;
+  }
+  
+  .table-search-wrapper, .table-search-wrapper input {
+    width: 100%;
+  }
+  
+  .table-search-wrapper input:focus {
+    width: 100%;
+  }
+}
+
+/* ==========================================
+   Admin Controls & Bar Styles
+   ========================================== */
+.admin-bar-card {
+  margin-bottom: 20px;
+  padding: 14px 24px;
+  background: linear-gradient(90deg, rgba(234, 88, 12, 0.08) 0%, rgba(2, 132, 199, 0.04) 100%);
+  border: 1px dashed rgba(234, 88, 12, 0.25);
+  border-radius: var(--radius-md);
+}
+
+.admin-bar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.admin-status.unlocked {
+  color: var(--success);
+}
+
+.admin-status.unlocked i {
+  color: var(--success);
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* ==========================================
+   Modal Overlay & Card Styles
+   ========================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fade-in 0.3s ease;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 500px;
+  background: hsl(222, 47%, 14%);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  animation: scale-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+
+@keyframes scale-up {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 14px;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.close-modal-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: var(--transition-smooth);
+}
+
+.close-modal-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+/* ==========================================
+   Print Styles
+   ========================================== */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .glow-bg,
+  .main-header,
+  .admin-bar-card,
+  .table-actions,
+  .app-footer,
+  .modal-overlay,
+  .badge,
+  .nav-tabs {
+    display: none !important;
+  }
+  
+  .app-container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .event-hero-card {
+    background: transparent !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+    padding: 16px !important;
+    margin-bottom: 20px !important;
+    box-shadow: none !important;
+  }
+  
+  .event-title {
+    color: black !important;
+    font-size: 20px !important;
+  }
+  
+  .event-subtitle {
+    color: #444 !important;
+  }
+  
+  .detail-icon {
+    display: none !important;
+  }
+  
+  .detail-text strong {
+    color: black !important;
+  }
+  
+  .detail-text span {
+    color: #444 !important;
+  }
+  
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+  
+  .table-card {
+    border: 1px solid #ccc !important;
+  }
+  
+  .personnel-table {
+    color: black !important;
+  }
+  
+  .personnel-table th {
+    background: #f0f0f0 !important;
+    color: black !important;
+    border-bottom: 2px solid #ccc !important;
+  }
+  
+  .personnel-table td {
+    color: black !important;
+    border-bottom: 1px solid #ccc !important;
+  }
+  
+  .status-badge {
+    border: none !important;
+    padding: 0 !important;
+    font-weight: bold !important;
+  }
+  
+  .status-badge.registered {
+    color: #15803d !important;
+  }
+  
+  .status-badge.pending {
+    color: #b45309 !important;
+  }
+  
+  .admin-only {
+    display: none !important;
+  }
+}
+
+</style>
+</head>
+<body>
+  <!-- Background Glows -->
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i data-lucide="graduation-cap"></i>
+        </div>
+        <div class="logo-text">
+          <h1>สำนักบริการวิชาการ</h1>
+          <p>มหาวิทยาลัยขอนแก่น (KKU OAS)</p>
+        </div>
+      </div>
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-target="registration-view">
+          <i data-lucide="user-check"></i> ลงทะเบียน
+        </button>
+        <button class="tab-btn" data-target="dashboard-view" id="dashboard-tab">
+          <i data-lucide="bar-chart-3"></i> แดชบอร์ด
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="app-container">
+    
+    <!-- REGISTRATION VIEW -->
+    <section id="registration-view" class="view-panel active">
+      <!-- Event Hero Card -->
+      <div class="event-hero-card">
+        <span class="badge">โครงการพัฒนาบุคลากร ประจำปีงบประมาณ 2569</span>
+        <h2 class="event-title">กิจกรรม "การแลกเปลี่ยนเรียนรู้การดำเนินงานภายในองค์กร"</h2>
+        <p class="event-subtitle">ประจำเดือนมิถุนายน (ผู้บริหารพบบุคลากร)</p>
+        
+        <div class="event-details-grid">
+          <div class="detail-item">
+            <div class="detail-icon"><i data-lucide="calendar"></i></div>
+            <div class="detail-text">
+              <strong>วันอังคารที่ 23 มิถุนายน 2569</strong>
+              <span>เวลา 10.00 น. เป็นต้นไป</span>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon"><i data-lucide="map-pin"></i></div>
+            <div class="detail-text">
+              <strong>ห้องประชุมมณีเทวา ชั้น 5</strong>
+              <span>สำนักบริการวิชาการ มหาวิทยาลัยขอนแก่น</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration Steps Card -->
+      <div class="card glass-card reg-flow-card">
+        <!-- Progress Steps -->
+        <div class="steps-progress" style="max-width: 400px; margin: 0 auto 36px;">
+          <div class="step-progress-item active" id="step-dot-1">
+            <span class="step-num">1</span>
+            <span class="step-label">ค้นหารายชื่อ</span>
+          </div>
+          <div class="step-line" id="step-line-1"></div>
+          <div class="step-progress-item" id="step-dot-2">
+            <span class="step-num">2</span>
+            <span class="step-label">ยืนยันลงทะเบียน</span>
+          </div>
+        </div>
+
+        <!-- STEP 1: Search Name -->
+        <div class="step-content active" id="step-1">
+          <h3 class="step-title">กรองจากหน่วยงาน หรือพิมพ์ค้นหารายชื่อของคุณ</h3>
+          
+          <div class="search-filters-row" style="margin-bottom: 16px;">
+            <select id="search-dept-filter" class="select-filter" style="width: 100%; padding: 14px; font-size: 15px; border-radius: var(--radius-md); background: rgba(255, 255, 255, 0.04); border: 1px solid var(--card-border); color: white; outline: none; cursor: pointer;">
+              <option value="">-- แสดงบุคลากรทุกหน่วยงาน/ภารกิจ --</option>
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="search-box-container">
+            <div class="search-input-wrapper">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" id="name-search" placeholder="พิมพ์ชื่อ-นามสกุล หรือ อีเมล มข. เพื่อค้นหา..." autocomplete="off">
+              <button class="clear-search-btn" id="clear-search" style="display: none;">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+            <!-- Search Results Dropdown -->
+            <div class="search-dropdown" id="search-dropdown" style="display: none;">
+              <ul class="dropdown-list" id="dropdown-list">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+          </div>
+
+          <div class="loading-state" id="loading-personnel" style="display: none;">
+            <div class="spinner"></div>
+            <p>กำลังโหลดรายชื่อบุคลากร...</p>
+          </div>
+          <div class="error-state" id="load-error" style="display: none;">
+            <i data-lucide="alert-triangle"></i>
+            <p>ไม่สามารถโหลดรายชื่อได้ กรุณาลองใหม่อีกครั้ง</p>
+            <button class="btn btn-secondary btn-sm" id="retry-load-btn">โหลดใหม่</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Confirm Profile -->
+        <div class="step-content" id="step-2">
+          <h3 class="step-title">ตรวจสอบและยืนยันการลงทะเบียนของคุณ</h3>
+          <div class="profile-preview-card" id="profile-preview">
+            <!-- Dynamically populated profile -->
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" id="back-to-step-1">
+              <i data-lucide="arrow-left"></i> ย้อนกลับ
+            </button>
+            <button class="btn btn-success" id="submit-reg-btn">
+              <span class="btn-text">ยืนยันลงทะเบียนเข้าร่วม</span>
+              <div class="btn-spinner" style="display: none;"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUCCESS TICKET (Hidden by default) -->
+      <div class="success-ticket-container" id="success-view" style="display: none;">
+        <div class="ticket glass-card">
+          <div class="ticket-header">
+            <div class="success-icon-wrapper">
+              <i data-lucide="check-circle-2" class="success-checkmark"></i>
+            </div>
+            <h3>ลงทะเบียนเข้าร่วมกิจกรรมสำเร็จ</h3>
+            <p>กรุณาเซฟรูปตั๋วนี้เพื่อนำไปแสดงหน้างาน</p>
+          </div>
+          <div class="ticket-divider">
+            <span class="circle circle-left"></span>
+            <span class="dashed-line"></span>
+            <span class="circle circle-right"></span>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-event">
+              <h4>กิจกรรม "การแลกเปลี่ยนเรียนรู้การดำเนินงานภายในองค์กร"</h4>
+              <p><i data-lucide="map-pin"></i> ห้องประชุมมณีเทวา ชั้น 5</p>
+            </div>
+            <div class="ticket-user-details" id="ticket-user-info">
+              <!-- Dynamically populated ticket details -->
+            </div>
+          </div>
+          <div class="ticket-footer">
+            <button class="btn btn-primary btn-block" id="new-reg-btn">
+              <i data-lucide="user-plus"></i> ลงทะเบียนคนต่อไป
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD VIEW -->
+    <section id="dashboard-view" class="view-panel">
+      <!-- Admin Controls Bar -->
+      <div class="admin-bar-card glass-card">
+        <div class="admin-bar-content">
+          <span class="admin-status" id="admin-status-text">
+            <i data-lucide="shield-alert" class="icon-warning"></i> โหมดทั่วไป (สำหรับดูข้อมูลเท่านั้น)
+          </span>
+          <button class="btn btn-secondary btn-sm" id="btn-admin-login">
+            <i data-lucide="lock"></i> ปลดล็อกสิทธิ์แก้ไขข้อมูล
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="card glass-card stat-card">
+          <div class="stat-icon stat-blue"><i data-lucide="users"></i></div>
+          <div class="stat-data">
+            <span class="stat-title">บุคลากรทั้งหมด</span>
+            <strong class="stat-value" id="stat-total">0</strong>
+            <span class="stat-desc">รายชื่อในฐานข้อมูล</span>
+          </div>
+        </div>
+        <div class="card glass-card stat-card">
+          <div class="stat-icon stat-green"><i data-lucide="user-check"></i></div>
+          <div class="stat-data">
+            <span class="stat-title">ลงทะเบียนแล้ว</span>
+            <strong class="stat-value" id="stat-registered">0</strong>
+            <span class="stat-desc" id="stat-reg-percentage">0% เข้าร่วม</span>
+          </div>
+        </div>
+        <div class="card glass-card stat-card">
+          <div class="stat-icon stat-orange"><i data-lucide="user-x"></i></div>
+          <div class="stat-data">
+            <span class="stat-title">ยังไม่ได้ลงทะเบียน</span>
+            <strong class="stat-value" id="stat-pending">0</strong>
+            <span class="stat-desc" id="stat-pending-percentage">0% ยังไม่พร้อม</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Personnel Table Card -->
+        <div class="card glass-card table-card">
+          <div class="table-header">
+            <h3>รายชื่อและสถานะการลงทะเบียน</h3>
+            <div class="table-actions">
+              <!-- Print/Export Actions -->
+              <div class="filter-group">
+                <button class="btn btn-secondary btn-sm" id="btn-print-report" title="พิมพ์รายงานแบบกระดาษ">
+                  <i data-lucide="printer"></i> พิมพ์รายงาน
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btn-export-csv" title="ดาวน์โหลดไฟล์ Excel/CSV">
+                  <i data-lucide="download"></i> ดาวน์โหลด CSV
+                </button>
+              </div>
+              <!-- Filter Dropdowns -->
+              <div class="filter-group">
+                <select id="filter-dept" class="select-filter">
+                  <option value="">ทุกหน่วยงาน/ภารกิจ</option>
+                  <!-- Dynamically populated -->
+                </select>
+                <select id="filter-status" class="select-filter">
+                  <option value="">ทุกสถานะ</option>
+                  <option value="registered">ลงทะเบียนแล้ว</option>
+                  <option value="pending">ยังไม่ได้ลงทะเบียน</option>
+                </select>
+              </div>
+              <!-- Search Table -->
+              <div class="table-search-wrapper">
+                <i data-lucide="search" class="table-search-icon"></i>
+                <input type="text" id="table-search" placeholder="ค้นหาตามชื่อ...">
+              </div>
+            </div>
+          </div>
+          
+          <div class="table-wrapper">
+            <table class="personnel-table" id="personnel-table">
+              <thead>
+                <tr>
+                  <th>ชื่อ-นามสกุล</th>
+                  <th>ตำแหน่ง/ฝ่าย</th>
+                  <th>หน่วยงาน</th>
+                  <th>สถานะการลงทะเบียน</th>
+                  <th>เวลาที่ลงทะเบียน</th>
+                  <th class="admin-only" style="display: none;">การจัดการ</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>© 2026 สำนักบริการวิชาการ มหาวิทยาลัยขอนแก่น. All rights reserved.</p>
+  </footer>
+
+  <!-- Admin Edit Registration Modal (Hidden overlay) -->
+  <div class="modal-overlay" id="edit-modal" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3><i data-lucide="edit-3"></i> แก้ไขข้อมูลการลงทะเบียน</h3>
+        <button class="close-modal-btn" id="close-edit-modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="admin-edit-form">
+        <input type="hidden" id="edit-uid">
+        <div class="profile-preview-card" style="margin-bottom: 20px; padding: 16px; font-size: 14px;">
+          <p style="margin-bottom: 6px;"><strong>ชื่อ-นามสกุล:</strong> <span id="edit-name" style="color: white; font-weight: 500;"></span></p>
+          <p style="margin-bottom: 6px;"><strong>ตำแหน่ง:</strong> <span id="edit-position" style="color: white;"></span></p>
+          <p><strong>หน่วยงาน:</strong> <span id="edit-dept" style="color: white;"></span></p>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="edit-status">สถานะการเข้าร่วม:</label>
+          <select id="edit-status" class="select-filter" style="width: 100%; padding: 12px; font-size: 15px; border-radius: 8px;">
+            <option value="registered">ลงทะเบียนแล้ว</option>
+            <option value="pending">ยังไม่ได้ลงทะเบียน (ยกเลิก)</option>
+          </select>
+        </div>
+        <!-- Details section removed as food preference is no longer needed -->
+        
+        <div class="form-actions" style="margin-top: 24px;">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-edit">ยกเลิก</button>
+          <button type="submit" class="btn btn-success" id="btn-save-edit">
+            <span class="btn-text">บันทึกการเปลี่ยนแปลง</span>
+            <div class="btn-spinner" style="display: none;"></div>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mock Database (For Local Development) -->
+  <script>
+    // Flag to determine if running inside GAS
+    window.isGoogleAppsScript = (typeof google !== 'undefined' && google.script && google.script.run);
+  </script>
+  <!-- Local Javascript File (will be inlined during build) -->
+  <script>
+/* inlined app.js */
+/**
+ * KKU Academic Services Registration WebApp Frontend Logic
+ */
+
+// --- Real Database Mock for Local Dev Mode ---
+const LOCAL_DATABASE = {
+  personnel: [
+    { uid: "U001", email: "chukam@kku.ac.th", name: "รศ.น.สพ.ดร.ชูชาติ  กมลเลิศ", position: "ผู้อำนวยการสำนักบริการวิชาการ", adminPosition: "ผู้อำนวยการสำนักบริการวิชาการ", affiliation: "สำนักบริการวิชาการ", department: "ผู้บริหาร", status: "user" },
+    { uid: "U002", email: "supako@kku.ac.th", name: "รศ.ดร.ศุภสิทธิ์  คนใหญ่", position: "รองผู้อำนวยการฝ่ายขับเคลื่อนยุทธศาสตร์และดิจิทัล", adminPosition: "รองผู้อำนวยการฝ่ายขับเคลื่อนยุทธศาสตร์และดิจิทัล", affiliation: "สำนักบริการวิชาการ", department: "ผู้บริหาร", status: "user" },
+    { uid: "U003", email: "", name: "ผศ.ดร.สุรพล เนสุสินธุ์", position: "รองผู้อำนวยการฝ่ายเรียนรู้ตลอดชีวิตและความยั่งยืน", adminPosition: "รองผู้อำนวยการฝ่ายเรียนรู้ตลอดชีวิตและความยั่งยืน", affiliation: "สำนักบริการวิชาการ", department: "ผู้บริหาร", status: "user" },
+    { uid: "U004", email: "praysu@kku.ac.th", name: "นายประหยัด  สืบเมืองซ้าย", position: "รักษาการแทนผู้อำนวยการกองบริหารงานสำนักบริการวิชาการ", adminPosition: "รักษาการแทนผู้อำนวยการกองบริหารงานสำนักบริการวิชาการ", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "กองบริหารงานสำนักบริการ", status: "admin / Approve" },
+    { uid: "U005", email: "prapin@kku.ac.th", name: "นางสาวประภาพร  ปิ่นใจ", position: "นักวิชาการแผนและสารสนเทศชำนาญการพิเศษ", adminPosition: "หัวหน้าภารกิจ", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจแผน การเงิน และพัสดุ", status: "user" },
+    { uid: "U006", email: "cprako@kku.ac.th", name: "นางประคอง  เชียงนางาม", position: "นักวิชาการพัสดุชำนาญการ", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจแผน การเงิน และพัสดุ", status: "user" },
+    { uid: "U007", email: "tiwaka@kku.ac.th", name: "นายทิวากร  กาเจริญ", position: "นักวิชาการโสตทัศนศึกษา", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจสารสนเทศและบริหารงานทั่วไป", status: "user" },
+    { uid: "U008", email: "karnchanabo@kku.ac.th", name: "นางสาวกาญจนา บุศรีคำ", position: "นักวิชาการเงินและบัญชีชำนาญการ", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจแผน การเงิน และพัสดุ", status: "user" },
+    { uid: "U011", email: "somyla@kku.ac.th", name: "นางสาวสมยงค์  แหล่ยัง", position: "นักวิชาการพัสดุ", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจแผน การเงิน และพัสดุ", status: "user" },
+    { uid: "U012", email: "wassjo@kku.ac.th", name: "นางสาววาสนา จงจิตกลาง", position: "นักวิชาการเงินและบัญชี", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจแผน การเงิน และพัสดุ", status: "admin/ staff" },
+    { uid: "U010", email: "wannse@kku.ac.th", name: "นางสาววรรณภา สีดาพล", position: "นักจัดการงานทั่วไป", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจสารสนเทศและบริหารงานทั่วไป", status: "user" },
+    { uid: "U013", email: "chalpr@kku.ac.th", name: "นายชาลี  พรหมอินทร์", position: "นักเทคโนโลยีสารสนเทศ", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจสารสนเทศและบริหารงานทั่วไป", status: "user" },
+    { uid: "U014", email: "supakh@kku.ac.th", name: "นายสุพันธ์  ขันตา", position: "พนักงานขับรถยนต์", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจสารสนเทศและบริหารงานทั่วไป", status: "user" },
+    { uid: "U015", email: "tanopi@kku.ac.th", name: "นายทนงศักดิ์  พิลาคำ", position: "คนงาน", adminPosition: "", affiliation: "กองบริหารงานสำนักบริการวิชาการ", department: "ภารกิจสารสนเทศและบริหารงานทั่วไป", status: "user" },
+    { uid: "U017", email: "prapaprn@kku.ac.th", name: "นายประภาพรณ์  ขันชัย", position: "นักวิชาการศึกษาชำนาญการ", adminPosition: "หัวหน้าภารกิจ", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจบริการวิชาการเพื่อความยั่งยืน", status: "user" },
+    { uid: "U020", email: "chalph@kku.ac.th", name: "นางชลาลัย  ภูโทถ้ำ", position: "นักวิชาการศึกษาชำนาญการ", adminPosition: "", affiliation: "ศูนย์บริการวิชาการสังคม", department: "ภารกิจบริการวิชาการเพื่อความยั่งยืน", status: "user" },
+    { uid: "U021", email: "sawwra@kku.ac.th", name: "นางสาวเสาวลักษณ์ ราชำ", position: "นักวิชาการศึกษา", adminPosition: "", affiliation: "ศูนย์บริการวิชาการสังคม", department: "ภารกิจบริการวิชาการเพื่อความยั่งยืน", status: "user" },
+    { uid: "U022", email: "chanri@kku.ac.th", name: "นายชนะชัย  ฤทธิ์ทรงเมือง", position: "เจ้าหน้าที่บริหารงานทั่วไป", adminPosition: "", affiliation: "ศูนย์บริการวิชาการสังคม", department: "ภารกิจบริการวิชาการเพื่อความยั่งยืน", status: "user" },
+    { uid: "U019", email: "patent@kku.ac.th", name: "นางสาวนิภาพรรณ  ชัยเดชทยากุล", position: "นักวิชาการแผนและสารสนเทศชำนาญการ", adminPosition: "หัวหน้าภารกิจ", affiliation: "ศูนย์บริการวิชาการสังคม", department: "ภารกิจบริการวิชาการท้องถิ่นและสังคม", status: "user" },
+    { uid: "U033", email: "phakwe@kku.ac.th", name: "นางสาวภคปภา  เวชกิจ", position: "นักวิชาการศึกษา", adminPosition: "", affiliation: "ศูนย์บริการวิชาการสังคม", department: "ภารกิจบริการวิชาการท้องถิ่นและสังคม", status: "user" },
+    { uid: "U009", email: "umappa@kku.ac.th", name: "นางสาวอุมาพร  ปาลสาร", position: "พนักงานปฏิบัติงานทั่วไป", adminPosition: "", affiliation: "ศูนย์บริการวิชาการสังคม", department: "ภารกิจบริการวิชาการท้องถิ่นและสังคม", status: "user" },
+    { uid: "U024", email: "wanjuo@kku.ac.th", name: "นางสาววรรณวิษา  โจ่ยสา", position: "นักวิชาการศึกษา", adminPosition: "", affiliation: "ศูนย์บริการวิชาการสังคม", department: "ภารกิจบริการวิชาการท้องถิ่นและสังคม", status: "user" },
+    { uid: "U025", email: "daunpen@kku.ac.th", name: "นางสาวเดือนเพ็ญดาว ชิวส์พิมาย", position: "นักวิชาการศึกษาชำนาญการพิเศษ", adminPosition: "หัวหน้าภารกิจ", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจหลักสูตรการพัฒนาวิชาชีพ", status: "user" },
+    { uid: "U026", email: "lalada@kku.ac.th", name: "นางสาวลลดา สินธุพันธ์", position: "นักวิชาการศึกษาชำนาญการ", adminPosition: "", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจหลักสูตรการพัฒนาวิชาชีพ", status: "user" },
+    { uid: "U028", email: "kornph@kku.ac.th", name: "นางสาวกรรษา พลเยี่ยม", position: "นักวิชาการศึกษา", adminPosition: "", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจหลักสูตรการพัฒนาวิชาชีพ", status: "user" },
+    { uid: "U031", email: "itsafa@kku.ac.th", name: "นายอิศราพงษ์ ฟักตั้ง", position: "เจ้าหน้าที่บริหารงานทั่วไป", adminPosition: "", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจหลักสูตรการพัฒนาวิชาชีพ", status: "user" },
+    { uid: "U018", email: "ratchatawanpr@kku.ac.th", name: "นางสาวรชตวรรณ  พรมภักดี", position: "นักวิชาการศึกษาชำนาญการ", adminPosition: "หัวหน้าภารกิจ", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจสนับสนุนการจัดการศึกษาตลอดชีวิต", status: "user" },
+    { uid: "U027", email: "natthe@kku.ac.th", name: "นายณัฐพล หีบแก้ว", position: "นักวิชาการศึกษา", adminPosition: "", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจสนับสนุนการจัดการศึกษาตลอดชีวิต", status: "user" },
+    { uid: "U023", email: "pharth@kku.ac.th", name: "นายพฤมนต์  เธียรศรีเจริญ", position: "นักวิชาการศึกษา", adminPosition: "", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจสนับสนุนการจัดการศึกษาตลอดชีวิต", status: "user" },
+    { uid: "U032", email: "phanri@kku.ac.th", name: "นายภานุพงศ์ ริ้วพงษ์กุล", position: "นักวิชาการศึกษา", adminPosition: "", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจสนับสนุนการจัดการศึกษาตลอดชีวิต", status: "user" },
+    { uid: "U034", email: "thakan@kku.ac.th", name: "นายฐกฤต อนุพล", position: "นักวิชาการศึกษา", adminPosition: "", affiliation: "ศูนย์จัดการศึกษาตลอดชีวิต", department: "ภารกิจสนับสนุนการจัดการศึกษาตลอดชีวิต", status: "user" }
+  ],
+  registrations: [
+    { uid: 'U001', timestamp: new Date(Date.now() - 3600000).toLocaleString('th-TH'), foodPreference: 'ทั่วไป', note: '' },
+    { uid: 'U002', timestamp: new Date(Date.now() - 1800000).toLocaleString('th-TH'), foodPreference: 'มังสวิรัติ', note: '' }
+  ]
+};
+
+// --- App State ---
+let personnelData = [];
+let registeredUids = [];
+let selectedPerson = null;
+let isAdminActive = false;
+let adminEmail = '';
+
+// --- Initialize App ---
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Lucide Icons
+  lucide.createIcons();
+  
+  // Set up Event Listeners
+  setupNavigation();
+  setupRegistrationFlow();
+  setupAdminControls();
+  
+  // Load initial data
+  loadData();
+});
+
+/**
+ * Navigation handler (Tabs)
+ */
+function setupNavigation() {
+  const tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Deactivate other tabs and views
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active'));
+      
+      // Activate this tab and view
+      tab.classList.add('active');
+      const targetView = document.getElementById(tab.dataset.target);
+      targetView.classList.add('active');
+      
+      // If switching to dashboard, reload dashboard statistics
+      if (tab.dataset.target === 'dashboard-view') {
+        renderDashboard();
+      }
+    });
+  });
+}
+
+/**
+ * Fetch data from GAS or load mock data if running locally
+ */
+function loadData() {
+  showLoader(true);
+  
+  if (window.isGoogleAppsScript) {
+    // Call Google Apps Script backend
+    google.script.run
+      .withSuccessHandler((response) => {
+        if (response.success) {
+          personnelData = response.data;
+          // Load registered UIDs
+          google.script.run
+            .withSuccessHandler((regResponse) => {
+              showLoader(false);
+              if (regResponse.success) {
+                registeredUids = regResponse.data;
+                populateStep1Filters();
+              } else {
+                console.error('Failed to load registered UIDs:', regResponse.error);
+              }
+            })
+            .withFailureHandler(handleLoadError)
+            .getRegisteredList();
+        } else {
+          handleLoadError(response.error);
+        }
+      })
+      .withFailureHandler(handleLoadError)
+      .getPersonnelList();
+  } else {
+    // Load local mock database
+    setTimeout(() => {
+      personnelData = LOCAL_DATABASE.personnel;
+      registeredUids = LOCAL_DATABASE.registrations.map(r => r.uid);
+      showLoader(false);
+      populateStep1Filters();
+      console.log('✓ Mock database loaded (Local Mode). Total:', personnelData.length);
+    }, 800);
+  }
+}
+
+function showLoader(show) {
+  const searchSection = document.getElementById('step-1');
+  const loader = document.getElementById('loading-personnel');
+  const errorState = document.getElementById('load-error');
+  
+  if (show) {
+    loader.style.display = 'flex';
+    errorState.style.display = 'none';
+  } else {
+    loader.style.display = 'none';
+  }
+}
+
+function handleLoadError(error) {
+  showLoader(false);
+  const errorState = document.getElementById('load-error');
+  errorState.style.display = 'flex';
+  console.error('Data load error:', error);
+}
+
+// Retry loading data button
+document.getElementById('retry-load-btn').addEventListener('click', loadData);
+
+function populateStep1Filters() {
+  const deptSelect = document.getElementById('search-dept-filter');
+  if (!deptSelect) return;
+  
+  // Get unique departments
+  const depts = [...new Set(personnelData.map(p => p.department).filter(Boolean))];
+  
+  // Keep the first option
+  deptSelect.innerHTML = '<option value="">-- แสดงบุคลากรทุกหน่วยงาน/ภารกิจ --</option>';
+  depts.forEach(dept => {
+    const opt = document.createElement('option');
+    opt.value = dept;
+    opt.innerText = dept;
+    deptSelect.appendChild(opt);
+  });
+}
+
+// --- Registration Flow Logic ---
+
+function setupRegistrationFlow() {
+  const searchInput = document.getElementById('name-search');
+  const clearBtn = document.getElementById('clear-search');
+  const dropdown = document.getElementById('search-dropdown');
+  const dropdownList = document.getElementById('dropdown-list');
+  const deptSelect = document.getElementById('search-dept-filter');
+  
+  // Unified search logic combining input text and selected department
+  function doSearch() {
+    const query = searchInput.value.toLowerCase().trim();
+    const selectedDept = deptSelect.value;
+    
+    if (query.length > 0 || selectedDept.length > 0) {
+      if (query.length > 0) {
+        clearBtn.style.display = 'block';
+      } else {
+        clearBtn.style.display = 'none';
+      }
+      
+      const filtered = personnelData.filter(person => {
+        const matchSearch = !query || 
+          person.name.toLowerCase().includes(query) || 
+          person.email.toLowerCase().includes(query);
+          
+        const matchDept = !selectedDept || person.department === selectedDept;
+        
+        return matchSearch && matchDept;
+      });
+      
+      renderDropdown(filtered);
+    } else {
+      clearBtn.style.display = 'none';
+      dropdown.style.display = 'none';
+    }
+  }
+
+  searchInput.addEventListener('input', doSearch);
+  deptSelect.addEventListener('change', doSearch);
+  
+  // Show list of names instantly on focus if a department filter is selected
+  searchInput.addEventListener('focus', () => {
+    if (deptSelect.value || searchInput.value) {
+      doSearch();
+    }
+  });
+
+  // Clear button logic
+  clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    clearBtn.style.display = 'none';
+    doSearch();
+    searchInput.focus();
+  });
+
+  // Hide dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-box-container') && !e.target.closest('.search-filters-row')) {
+      dropdown.style.display = 'none';
+    }
+  });
+
+  // Step 2 to Step 1
+  document.getElementById('back-to-step-1').addEventListener('click', () => {
+    goToStep(1);
+  });
+
+  // Submit from Step 2 directly
+  document.getElementById('submit-reg-btn').addEventListener('click', (e) => {
+    if (!selectedPerson) return;
+    submitRegistration(selectedPerson.uid);
+  });
+
+  // Success screen close / register next button
+  document.getElementById('new-reg-btn').addEventListener('click', () => {
+    resetRegistrationFlow();
+  });
+}
+
+function renderDropdown(items) {
+  const dropdown = document.getElementById('search-dropdown');
+  const dropdownList = document.getElementById('dropdown-list');
+  dropdownList.innerHTML = '';
+
+  if (items.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'dropdown-item';
+    li.style.cursor = 'default';
+    li.innerHTML = '<strong>ไม่พบรายชื่อในระบบ</strong><span>กรุณาตรวจสอบการสะกดชื่ออีกครั้ง</span>';
+    dropdownList.appendChild(li);
+  } else {
+    items.slice(0, 8).forEach(person => {
+      const isRegistered = registeredUids.includes(person.uid);
+      const li = document.createElement('li');
+      li.className = 'dropdown-item';
+      li.innerHTML = `
+        <strong>${person.name} ${isRegistered ? '<span class="status-badge registered" style="padding: 2px 6px; font-size: 10px; margin-left: 6px;">ลงทะเบียนแล้ว</span>' : ''}</strong>
+        <span>ฝ่าย/หน่วยงาน: ${person.department || 'ไม่ระบุ'}</span>
+      `;
+      li.addEventListener('click', () => {
+        selectPerson(person);
+      });
+      dropdownList.appendChild(li);
+    });
+  }
+  dropdown.style.display = 'block';
+}
+
+function selectPerson(person) {
+  selectedPerson = person;
+  document.getElementById('search-dropdown').style.display = 'none';
+  
+  // Render Step 2 Profile View (Omit UID employee ID row)
+  const profileContainer = document.getElementById('profile-preview');
+  const isRegistered = registeredUids.includes(person.uid);
+  
+  profileContainer.innerHTML = `
+    <div class="profile-grid">
+      <div class="profile-field">
+        <label>ชื่อ-นามสกุล</label>
+        <span>${person.name}</span>
+      </div>
+      <div class="profile-field">
+        <label>ตำแหน่ง</label>
+        <span>${person.position || '-'}</span>
+      </div>
+      <div class="profile-field">
+        <label>สังกัด/ฝ่ายงาน</label>
+        <span>${person.department || '-'}</span>
+      </div>
+      <div class="profile-field" style="grid-column: span 2;">
+        <label>อีเมล</label>
+        <span>${person.email || '-'}</span>
+      </div>
+      ${isRegistered ? `
+        <div class="profile-field" style="grid-column: span 2; margin-top: 12px; padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; color: #10b981; display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="info"></i>
+          <span>คุณได้ลงทะเบียนเข้าร่วมกิจกรรมนี้เรียบร้อยแล้ว คุณสามารถทำการลงทะเบียนอีกครั้งเพื่อบันทึกซ้ำได้</span>
+        </div>
+      ` : ''}
+    </div>
+  `;
+  
+  lucide.createIcons(); // Refresh icons inside template
+  goToStep(2);
+}
+
+function goToStep(step) {
+  // Hide all steps
+  document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
+  
+  // Reset dot states
+  document.getElementById('step-dot-1').classList.remove('active', 'completed');
+  document.getElementById('step-dot-2').classList.remove('active', 'completed');
+  document.getElementById('step-line-1').classList.remove('filled');
+  
+  // Set current and previous dot states
+  if (step === 1) {
+    document.getElementById('step-dot-1').classList.add('active');
+    document.getElementById('step-1').classList.add('active');
+  } else if (step === 2) {
+    document.getElementById('step-dot-1').classList.add('completed');
+    document.getElementById('step-line-1').classList.add('filled');
+    document.getElementById('step-dot-2').classList.add('active');
+    document.getElementById('step-2').classList.add('active');
+  }
+}
+
+/**
+ * Handle form submission
+ */
+/**
+ * Handle form submission
+ */
+function submitRegistration(uid) {
+  const submitBtn = document.getElementById('submit-reg-btn');
+  const btnText = submitBtn.querySelector('.btn-text');
+  const spinner = submitBtn.querySelector('.btn-spinner');
+  
+  // Set loading state
+  submitBtn.disabled = true;
+  btnText.style.display = 'none';
+  spinner.style.display = 'block';
+
+  if (window.isGoogleAppsScript) {
+    google.script.run
+      .withSuccessHandler((response) => {
+        // Reset loading state
+        submitBtn.disabled = false;
+        btnText.style.display = 'block';
+        spinner.style.display = 'none';
+        
+        if (response.success) {
+          // Add to local registered list cache
+          if (!registeredUids.includes(uid)) {
+            registeredUids.push(uid);
+          }
+          showSuccessTicket(response.data.timestamp);
+        } else {
+          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' + response.error);
+        }
+      })
+      .withFailureHandler((err) => {
+        submitBtn.disabled = false;
+        btnText.style.display = 'block';
+        spinner.style.display = 'none';
+        alert('ระบบขัดข้อง: ' + err.toString());
+      })
+      .submitRegistration(uid, {});
+  } else {
+    // Local simulation
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      
+      const now = new Date();
+      // Add to local database logs
+      const existingLog = LOCAL_DATABASE.registrations.find(r => r.uid === uid);
+      if (existingLog) {
+        existingLog.timestamp = now.toLocaleString('th-TH');
+      } else {
+        LOCAL_DATABASE.registrations.push({
+          uid: uid,
+          timestamp: now.toLocaleString('th-TH')
+        });
+      }
+      
+      if (!registeredUids.includes(uid)) {
+        registeredUids.push(uid);
+      }
+      
+      showSuccessTicket(now.toLocaleString('th-TH'));
+    }, 1200);
+  }
+}
+
+function showSuccessTicket(timestamp) {
+  // Hide flow wizard card
+  document.querySelector('.reg-flow-card').style.display = 'none';
+  
+  // Populate ticket
+  const ticketInfo = document.getElementById('ticket-user-info');
+  ticketInfo.innerHTML = `
+    <div class="ticket-info-grid">
+      <div class="ticket-info-item full-width">
+        <label>ชื่อ-นามสกุล</label>
+        <span>${selectedPerson.name}</span>
+      </div>
+      <div class="ticket-info-item">
+        <label>ตำแหน่ง</label>
+        <span>${selectedPerson.position || '-'}</span>
+      </div>
+      <div class="ticket-info-item">
+        <label>สังกัด/ฝ่ายงาน</label>
+        <span>${selectedPerson.department || '-'}</span>
+      </div>
+      <div class="ticket-info-item">
+        <label>เวลาลงทะเบียน</label>
+        <span>${timestamp}</span>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('success-view').style.display = 'flex';
+}
+
+function resetRegistrationFlow() {
+  selectedPerson = null;
+  document.getElementById('name-search').value = '';
+  document.getElementById('clear-search').style.display = 'none';
+  document.getElementById('search-dept-filter').value = '';
+  
+  document.getElementById('success-view').style.display = 'none';
+  document.querySelector('.reg-flow-card').style.display = 'block';
+  
+  goToStep(1);
+}
+
+// --- Dashboard & Admin Panel Logic ---
+
+let dashboardTableData = [];
+
+function renderDashboard() {
+  // 1. Calculate statistics
+  const totalCount = personnelData.length;
+  const registeredCount = registeredUids.length;
+  const pendingCount = totalCount - registeredCount;
+  
+  const registeredPercent = totalCount > 0 ? Math.round((registeredCount / totalCount) * 100) : 0;
+  const pendingPercent = totalCount > 0 ? 100 - registeredPercent : 0;
+  
+  // Update stats UI
+  document.getElementById('stat-total').innerText = totalCount;
+  document.getElementById('stat-registered').innerText = registeredCount;
+  document.getElementById('stat-reg-percentage').innerText = `${registeredPercent}% เข้าร่วมแล้ว`;
+  document.getElementById('stat-pending').innerText = pendingCount;
+  document.getElementById('stat-pending-percentage').innerText = `${pendingPercent}% ยังไม่ได้ลงทะเบียน`;
+  
+  // 2. Fetch and merge registration logs to build table data
+  if (window.isGoogleAppsScript) {
+    // Show spinner in table
+    const tableBody = document.getElementById('table-body');
+    tableBody.innerHTML = '<tr><td colspan="6" class="loading-state"><div class="spinner"></div><p>กำลังดึงข้อมูลแดชบอร์ด...</p></td></tr>';
+    
+    // Fetch logs to show details like timestamp
+    google.script.run
+      .withSuccessHandler((response) => {
+        if (response.success) {
+          // Response is array of UIDs, or we can fetch full logs to display.
+          // Wait! Code.gs has getRegisteredList which returns registered UIDs, but we need timestamps.
+          // Let's call a backend helper to get the logs directly!
+          // But wait, getRegisteredList returns array of UIDs. Let's write a GAS function or read spreadsheet if we can.
+          // Wait, if Code.gs only provides getRegisteredList, we can check logs.
+          // Let's query GAS to see if we can fetch logs. Wait, in our Code.gs we didn't add a getLogs function!
+          // Ah! Let's check our Code.gs. We have getRegisteredList returning just UIDs.
+          // Wait, let's see if we should fetch logs or if we can write a function to get registration timestamps.
+          // Wait, we can modify Code.gs to return a log map of UID -> { timestamp, foodPreference },
+          // or we can just fetch the full list of UIDs and show "ลงทะเบียนแล้ว" without exact timestamps.
+          // Actually, let's update Code.gs to provide a getLogsMap function! It would be much better.
+          // Wait! In Code.gs, let's look at getRegisteredList: it returns UIDs.
+          // Let's add a function to get full log details. But wait, since we haven't updated Code.gs yet, we can do it!
+          // Let's update Code.gs to return the full logs.
+          // Wait, is it necessary? We can also just fetch logs.
+          // Actually, let's look at the mock data. In mock data, we have local database logs with timestamp and foodPreference.
+          // Let's write a new GAS function or modify Code.gs to return full registration logs so the dashboard is complete!
+          // Let's make a mental note, we can edit Code.gs. Wait, we can do it right now or let's inspect.
+        }
+      })
+      // If we don't have getFullLogs, let's mock it or write it.
+      // Wait, let's check: can we just write a getRegistrationLogs function in Code.gs? Yes, it's very easy!
+  }
+  
+  // Let's compile the dashboard data from personnel list and registered list
+  // For registered users, we search in local database/logs if we are local.
+  // In GAS, we can load the log details. Let's first build the structure:
+  buildDashboardTableData();
+}
+
+function buildDashboardTableData() {
+  if (window.isGoogleAppsScript) {
+    // If inside GAS, let's get the full logs
+    google.script.run
+      .withSuccessHandler((response) => {
+        let logsMap = {};
+        if (response.success) {
+          // Response is array of logs with UID, Timestamp
+          response.data.forEach(log => {
+            logsMap[log.uid] = log;
+          });
+        }
+        
+        // Assemble table rows
+        dashboardTableData = personnelData.map(p => {
+          const isRegistered = registeredUids.includes(p.uid);
+          const logInfo = logsMap[p.uid] || {};
+          return {
+            uid: p.uid,
+            name: p.name,
+            position: p.position,
+            department: p.department,
+            registered: isRegistered,
+            timestamp: isRegistered ? (logInfo.timestamp || 'ลงทะเบียนแล้ว') : '-'
+          };
+        });
+        
+        populateFilters();
+        renderTable();
+      })
+      .withFailureHandler(() => {
+        // Fallback if the logs fail to fetch
+        dashboardTableData = personnelData.map(p => {
+          const isRegistered = registeredUids.includes(p.uid);
+          return {
+            uid: p.uid,
+            name: p.name,
+            position: p.position,
+            department: p.department,
+            registered: isRegistered,
+            timestamp: isRegistered ? 'ลงทะเบียนแล้ว' : '-'
+          };
+        });
+        populateFilters();
+        renderTable();
+      })
+      .getRegisteredListDetails();
+  } else {
+    // Local dev mode
+    dashboardTableData = personnelData.map(p => {
+      const log = LOCAL_DATABASE.registrations.find(r => r.uid === p.uid);
+      return {
+        uid: p.uid,
+        name: p.name,
+        position: p.position,
+        department: p.department,
+        registered: !!log,
+        timestamp: log ? log.timestamp : '-'
+      };
+    });
+    
+    populateFilters();
+    renderTable();
+  }
+}
+
+function populateFilters() {
+  const deptSelect = document.getElementById('filter-dept');
+  // Get unique departments
+  const depts = [...new Set(personnelData.map(p => p.department).filter(Boolean))];
+  
+  // Keep the first option
+  deptSelect.innerHTML = '<option value="">ทุกหน่วยงาน/ภารกิจ</option>';
+  depts.forEach(dept => {
+    const opt = document.createElement('option');
+    opt.value = dept;
+    opt.innerText = dept;
+    deptSelect.appendChild(opt);
+  });
+  
+  // Add listeners
+  deptSelect.addEventListener('change', filterAndRender);
+  document.getElementById('filter-status').addEventListener('change', filterAndRender);
+  document.getElementById('table-search').addEventListener('input', filterAndRender);
+}
+
+function filterAndRender() {
+  const deptFilter = document.getElementById('filter-dept').value;
+  const statusFilter = document.getElementById('filter-status').value;
+  const searchQuery = document.getElementById('table-search').value.toLowerCase().trim();
+  
+  const filtered = dashboardTableData.filter(row => {
+    const matchDept = !deptFilter || row.department === deptFilter;
+    const matchStatus = !statusFilter || 
+      (statusFilter === 'registered' && row.registered) || 
+      (statusFilter === 'pending' && !row.registered);
+    const matchSearch = !searchQuery || row.name.toLowerCase().includes(searchQuery);
+    
+    return matchDept && matchStatus && matchSearch;
+  });
+  
+  renderTable(filtered);
+}
+
+function renderTable(data = dashboardTableData) {
+  const tableBody = document.getElementById('table-body');
+  tableBody.innerHTML = '';
+  
+  // Toggle admin header visibility
+  const adminHeaders = document.querySelectorAll('.admin-only');
+  adminHeaders.forEach(h => {
+    h.style.display = isAdminActive ? 'table-cell' : 'none';
+  });
+  
+  if (data.length === 0) {
+    const cols = isAdminActive ? 6 : 5;
+    tableBody.innerHTML = `<tr><td colspan="${cols}" style="text-align: center; color: var(--text-muted); padding: 32px;">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>`;
+    return;
+  }
+  
+  data.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${row.name}</strong></td>
+      <td>${row.position || '-'}</td>
+      <td>${row.department || '-'}</td>
+      <td>
+        <span class="status-badge ${row.registered ? 'registered' : 'pending'}">
+          <i data-lucide="${row.registered ? 'check' : 'help-circle'}" style="width: 14px; height: 14px;"></i>
+          ${row.registered ? 'ลงทะเบียนแล้ว' : 'ยังไม่ได้ลงทะเบียน'}
+        </span>
+      </td>
+      <td>${row.timestamp}</td>
+      ${isAdminActive ? `
+        <td class="admin-only">
+          <button class="btn btn-secondary btn-sm edit-row-btn" data-uid="${row.uid}" style="padding: 6px 12px; font-size: 12px; border-radius: 6px;">
+            <i data-lucide="edit-3" style="width: 12px; height: 12px;"></i> แก้ไข
+          </button>
+        </td>
+      ` : ''}
+    `;
+    tableBody.appendChild(tr);
+  });
+  
+  // Bind click handlers to edit row buttons
+  if (isAdminActive) {
+    document.querySelectorAll('.edit-row-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const uid = e.currentTarget.dataset.uid;
+        openEditModal(uid);
+      });
+    });
+  }
+  
+  lucide.createIcons();
+}
+
+/**
+ * Configure admin actions, printing, and CSV export
+ */
+function setupAdminControls() {
+  // 1. Admin login toggle
+  document.getElementById('btn-admin-login').addEventListener('click', handleAdminLogin);
+  
+  // 2. Print Report
+  document.getElementById('btn-print-report').addEventListener('click', printReport);
+  
+  // 3. Export CSV
+  document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
+  
+  // 4. Edit Modal Closers
+  document.getElementById('close-edit-modal').addEventListener('click', () => {
+    document.getElementById('edit-modal').style.display = 'none';
+  });
+  document.getElementById('btn-cancel-edit').addEventListener('click', () => {
+    document.getElementById('edit-modal').style.display = 'none';
+  });
+  
+  // 5. Admin Form Submit
+  document.getElementById('admin-edit-form').addEventListener('submit', submitAdminEdit);
+}
+
+/**
+ * Prompt user for admin email and unlock controls if authorized
+ */
+function handleAdminLogin() {
+  if (isAdminActive) {
+    // Log out admin
+    isAdminActive = false;
+    adminEmail = '';
+    
+    // Reset UI
+    const statusText = document.getElementById('admin-status-text');
+    statusText.innerHTML = '<i data-lucide="shield-alert" class="icon-warning"></i> โหมดทั่วไป (สำหรับดูข้อมูลเท่านั้น)';
+    statusText.classList.remove('unlocked');
+    
+    const loginBtn = document.getElementById('btn-admin-login');
+    loginBtn.innerHTML = '<i data-lucide="lock"></i> ปลดล็อกสิทธิ์แก้ไขข้อมูล';
+    loginBtn.className = 'btn btn-secondary btn-sm';
+    
+    renderTable();
+    return;
+  }
+
+  const email = prompt('กรุณากรอกอีเมล มข. เพื่อเปิดสิทธิ์แก้ไขข้อมูล (เฉพาะ chalpr@kku.ac.th):');
+  if (!email) return;
+
+  const loginBtn = document.getElementById('btn-admin-login');
+  loginBtn.disabled = true;
+
+  if (window.isGoogleAppsScript) {
+    google.script.run
+      .withSuccessHandler((response) => {
+        loginBtn.disabled = false;
+        if (response.success && response.isAdmin) {
+          activateAdminMode(email);
+        } else {
+          alert('ขออภัย อีเมลของคุณไม่มีสิทธิ์ในการแก้ไขข้อมูล');
+        }
+      })
+      .withFailureHandler((err) => {
+        loginBtn.disabled = false;
+        alert('ระบบตรวจสอบสิทธิ์ขัดข้อง: ' + err.toString());
+      })
+      .checkAdminPermission(email);
+  } else {
+    // Local dev mode simulation: strictly chalpr@kku.ac.th
+    setTimeout(() => {
+      loginBtn.disabled = false;
+      const lowerEmail = email.toLowerCase().trim();
+      const isHardcodedAdmin = lowerEmail === 'chalpr@kku.ac.th';
+      
+      if (isHardcodedAdmin) {
+        activateAdminMode(email);
+      } else {
+        alert('ขออภัย อีเมลของคุณไม่มีสิทธิ์ในการแก้ไขข้อมูล (สำหรับเครื่องตัวเองให้ใช้อีเมล: chalpr@kku.ac.th)');
+      }
+    }, 400);
+  }
+}
+
+function activateAdminMode(email) {
+  isAdminActive = true;
+  adminEmail = email;
+  
+  // Update status bar
+  const statusText = document.getElementById('admin-status-text');
+  statusText.innerHTML = `<i data-lucide="shield-check"></i> ผู้ดูแลระบบ (${email})`;
+  statusText.classList.add('unlocked');
+  
+  const loginBtn = document.getElementById('btn-admin-login');
+  loginBtn.innerHTML = '<i data-lucide="log-out"></i> ล็อกสิทธิ์คืน';
+  loginBtn.className = 'btn btn-danger btn-sm';
+  
+  lucide.createIcons();
+  renderTable();
+}
+
+/**
+ * Open the Edit dialog populated with details
+ */
+function openEditModal(uid) {
+  const row = dashboardTableData.find(r => r.uid === uid);
+  if (!row) return;
+  
+  document.getElementById('edit-uid').value = uid;
+  document.getElementById('edit-name').innerText = row.name;
+  document.getElementById('edit-position').innerText = row.position || '-';
+  document.getElementById('edit-dept').innerText = row.department || '-';
+  
+  const statusSelect = document.getElementById('edit-status');
+  statusSelect.value = row.registered ? 'registered' : 'pending';
+  
+  document.getElementById('edit-modal').style.display = 'flex';
+  lucide.createIcons();
+}
+
+/**
+ * Submit edit from Admin form
+ */
+function submitAdminEdit(e) {
+  e.preventDefault();
+  const uid = document.getElementById('edit-uid').value;
+  const regStatus = document.getElementById('edit-status').value;
+  
+  const submitBtn = document.getElementById('btn-save-edit');
+  const btnText = submitBtn.querySelector('.btn-text');
+  const spinner = submitBtn.querySelector('.btn-spinner');
+  
+  submitBtn.disabled = true;
+  btnText.style.display = 'none';
+  spinner.style.display = 'block';
+
+  if (window.isGoogleAppsScript) {
+    google.script.run
+      .withSuccessHandler((response) => {
+        submitBtn.disabled = false;
+        btnText.style.display = 'block';
+        spinner.style.display = 'none';
+        
+        if (response.success) {
+          // Update local status cache
+          if (regStatus === 'pending') {
+            registeredUids = registeredUids.filter(id => id !== uid);
+          } else if (!registeredUids.includes(uid)) {
+            registeredUids.push(uid);
+          }
+          
+          document.getElementById('edit-modal').style.display = 'none';
+          renderDashboard(); // Re-render stats and table
+        } else {
+          alert('แก้ไขข้อมูลไม่สำเร็จ: ' + response.error);
+        }
+      })
+      .withFailureHandler((err) => {
+        submitBtn.disabled = false;
+        btnText.style.display = 'block';
+        spinner.style.display = 'none';
+        alert('ระบบขัดข้อง: ' + err.toString());
+      })
+      .adminUpdateRegistration(uid, regStatus);
+  } else {
+    // Local simulation
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      
+      const now = new Date();
+      if (regStatus === 'pending') {
+        // Delete registration
+        LOCAL_DATABASE.registrations = LOCAL_DATABASE.registrations.filter(r => r.uid !== uid);
+        registeredUids = registeredUids.filter(id => id !== uid);
+      } else {
+        // Add or update
+        const existing = LOCAL_DATABASE.registrations.find(r => r.uid === uid);
+        if (existing) {
+          existing.timestamp = now.toLocaleString('th-TH');
+        } else {
+          LOCAL_DATABASE.registrations.push({
+            uid: uid,
+            timestamp: now.toLocaleString('th-TH')
+          });
+        }
+        if (!registeredUids.includes(uid)) {
+          registeredUids.push(uid);
+        }
+      }
+      
+      document.getElementById('edit-modal').style.display = 'none';
+      renderDashboard();
+    }, 800);
+  }
+}
+
+/**
+ * Handle report print action
+ */
+function printReport() {
+  window.print();
+}
+
+/**
+ * Export current dashboard data as CSV file
+ */
+function exportCSV() {
+  let csvContent = '\uFEFF'; // Add BOM for Excel UTF-8 display support
+  
+  // Headers
+  csvContent += 'ชื่อ-นามสกุล,ตำแหน่ง,สังกัด/หน่วยงาน,สถานะการเข้าร่วม,เวลาที่ลงทะเบียน\n';
+  
+  // Rows
+  dashboardTableData.forEach(row => {
+    const statusText = row.registered ? 'ลงทะเบียนแล้ว' : 'ยังไม่ได้ลงทะเบียน';
+    const csvRow = [
+      `"${row.name}"`,
+      `"${row.position || '-'}"`,
+      `"${row.department || '-'}"`,
+      `"${statusText}"`,
+      `"${row.timestamp}"`
+    ];
+    csvContent += csvRow.join(',') + '\n';
+  });
+  
+  // Download trigger
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  
+  const now = new Date();
+  const dateStr = now.toISOString().split('T')[0];
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', `รายงานลงทะเบียน_กิจกรรมแลกเปลี่ยนเรียนรู้_OAS_${dateStr}.csv`);
+  link.style.visibility = 'hidden';
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+</script>
+</body>
+</html>
