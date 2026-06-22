@@ -12,7 +12,7 @@ const LOG_SHEET_NAME = 'AttendanceLogs';
  * Serve the main web application UI
  */
 function doGet() {
-  const htmlOutput = HtmlService.createTemplateFromFile('Index')
+  const htmlOutput = HtmlService.createTemplateFromFile('index')
     .evaluate()
     .setTitle('ลงทะเบียนเข้าร่วมกิจกรรม - สำนักบริการวิชาการ มข.')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no')
