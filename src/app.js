@@ -2,6 +2,36 @@
  * KKU Academic Services Registration WebApp Frontend Logic
  */
 
+// --- Firebase SDK Imports ---
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+// --- Firebase Configuration ---
+// แทนที่ค่าคอนฟิกด้านล่างนี้ด้วยค่าคอนฟิกจริงจาก Firebase Console ของคุณ
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+// Initialized variables
+let db = null;
+let isFirebaseEnabled = false;
+
+try {
+  if (firebaseConfig.projectId && firebaseConfig.projectId !== "YOUR_PROJECT_ID") {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    isFirebaseEnabled = true;
+    console.log("🔥 Firebase Firestore connected successfully!");
+  }
+} catch (e) {
+  console.error("❌ Failed to initialize Firebase:", e);
+}
+
 // --- Real Database Mock for Local Dev Mode ---
 const LOCAL_DATABASE = {
   personnel: [
@@ -91,7 +121,7 @@ function setupNavigation() {
 /**
  * Fetch data from GAS or load mock data if running locally
  */
-function loadData() {
+async function loadData() {
   showLoader(true);
   
   if (window.isGoogleAppsScript) {
@@ -119,6 +149,36 @@ function loadData() {
       })
       .withFailureHandler(handleLoadError)
       .getPersonnelList();
+  } else if (isFirebaseEnabled) {
+    try {
+      // 1. Fetch personnel. If empty, auto-populate from local mockup
+      let personnelSnapshot = await getDocs(collection(db, "personnel"));
+      if (personnelSnapshot.empty) {
+        console.log("Initializing Firestore with personnel data...");
+        for (const p of LOCAL_DATABASE.personnel) {
+          await setDoc(doc(db, "personnel", p.uid), p);
+        }
+        personnelSnapshot = await getDocs(collection(db, "personnel"));
+      }
+      
+      personnelData = [];
+      personnelSnapshot.forEach(doc => {
+        personnelData.push(doc.data());
+      });
+      
+      // 2. Fetch registrations
+      const regSnapshot = await getDocs(collection(db, "registrations"));
+      registeredUids = [];
+      regSnapshot.forEach(doc => {
+        registeredUids.push(doc.id);
+      });
+      
+      showLoader(false);
+      populateStep1Filters();
+      console.log("✓ Firebase data loaded. Total:", personnelData.length, "Registered:", registeredUids.length);
+    } catch (error) {
+      handleLoadError(error);
+    }
   } else {
     // Load local mock database
     setTimeout(() => {
@@ -346,7 +406,7 @@ function goToStep(step) {
 /**
  * Handle form submission
  */
-function submitRegistration(uid) {
+async function submitRegistration(uid) {
   const submitBtn = document.getElementById('submit-reg-btn');
   const btnText = submitBtn.querySelector('.btn-text');
   const spinner = submitBtn.querySelector('.btn-spinner');
@@ -381,6 +441,30 @@ function submitRegistration(uid) {
         alert('ระบบขัดข้อง: ' + err.toString());
       })
       .submitRegistration(uid, {});
+  } else if (isFirebaseEnabled) {
+    try {
+      const now = new Date();
+      const timestampStr = now.toLocaleString('th-TH');
+      
+      await setDoc(doc(db, "registrations", uid), {
+        uid: uid,
+        timestamp: timestampStr
+      });
+      
+      submitBtn.disabled = false;
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      
+      if (!registeredUids.includes(uid)) {
+        registeredUids.push(uid);
+      }
+      showSuccessTicket(timestampStr);
+    } catch (error) {
+      submitBtn.disabled = false;
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      alert('เกิดข้อผิดพลาดในการบันทึกข้อมูลลง Firebase: ' + error.message);
+    }
   } else {
     // Local simulation
     setTimeout(() => {
@@ -511,7 +595,7 @@ function renderDashboard() {
   buildDashboardTableData();
 }
 
-function buildDashboardTableData() {
+async function buildDashboardTableData() {
   if (window.isGoogleAppsScript) {
     // If inside GAS, let's get the full logs
     google.script.run
@@ -558,6 +642,49 @@ function buildDashboardTableData() {
         renderTable();
       })
       .getRegisteredListDetails();
+  } else if (isFirebaseEnabled) {
+    try {
+      // Fetch registrations from Firebase
+      const regSnapshot = await getDocs(collection(db, "registrations"));
+      const logsMap = {};
+      regSnapshot.forEach(doc => {
+        logsMap[doc.id] = doc.data();
+      });
+
+      // Update registeredUids cache
+      registeredUids = Object.keys(logsMap);
+
+      dashboardTableData = personnelData.map(p => {
+        const log = logsMap[p.uid];
+        return {
+          uid: p.uid,
+          name: p.name,
+          position: p.position,
+          department: p.department,
+          registered: !!log,
+          timestamp: log ? log.timestamp : '-'
+        };
+      });
+
+      populateFilters();
+      renderTable();
+    } catch (e) {
+      console.error("Error fetching registrations from Firebase:", e);
+      // Fallback
+      dashboardTableData = personnelData.map(p => {
+        const isRegistered = registeredUids.includes(p.uid);
+        return {
+          uid: p.uid,
+          name: p.name,
+          position: p.position,
+          department: p.department,
+          registered: isRegistered,
+          timestamp: isRegistered ? 'ลงทะเบียนแล้ว' : '-'
+        };
+      });
+      populateFilters();
+      renderTable();
+    }
   } else {
     // Local dev mode
     dashboardTableData = personnelData.map(p => {
@@ -791,7 +918,7 @@ function openEditModal(uid) {
 /**
  * Submit edit from Admin form
  */
-function submitAdminEdit(e) {
+async function submitAdminEdit(e) {
   e.preventDefault();
   const uid = document.getElementById('edit-uid').value;
   const regStatus = document.getElementById('edit-status').value;
@@ -832,6 +959,35 @@ function submitAdminEdit(e) {
         alert('ระบบขัดข้อง: ' + err.toString());
       })
       .adminUpdateRegistration(uid, regStatus);
+  } else if (isFirebaseEnabled) {
+    try {
+      if (regStatus === 'pending') {
+        // Delete registration
+        await deleteDoc(doc(db, "registrations", uid));
+        registeredUids = registeredUids.filter(id => id !== uid);
+      } else {
+        // Add or update
+        const now = new Date();
+        await setDoc(doc(db, "registrations", uid), {
+          uid: uid,
+          timestamp: now.toLocaleString('th-TH')
+        });
+        if (!registeredUids.includes(uid)) {
+          registeredUids.push(uid);
+        }
+      }
+      
+      submitBtn.disabled = false;
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      document.getElementById('edit-modal').style.display = 'none';
+      renderDashboard();
+    } catch (error) {
+      submitBtn.disabled = false;
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      alert('แก้ไขข้อมูลใน Firebase ไม่สำเร็จ: ' + error.message);
+    }
   } else {
     // Local simulation
     setTimeout(() => {

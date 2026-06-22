@@ -18,8 +18,8 @@ const js = fs.readFileSync(path.join(srcDir, 'app.js'), 'utf8');
 // Replace <link rel="stylesheet" href="style.css"> with <style>...</style>
 html = html.replace(/<link[^>]*href="style\.css"[^>]*>/i, `<style>\n\/\* inlined style.css \*\/\n${css}\n</style>`);
 
-// Replace <script src="app.js"></script> with <script>...</script>
-html = html.replace(/<script[^>]*src="app\.js"[^>]*><\/script>/i, `<script>\n\/\* inlined app.js \*\/\n${js}\n</script>`);
+// Replace <script type="module" src="app.js"></script> with <script type="module">...</script>
+html = html.replace(/<script[^>]*src="app\.js"[^>]*><\/script>/i, `<script type="module">\n\/\* inlined app.js \*\/\n${js}\n</script>`);
 
 // 3. Write to dist/Index.html (for Google Apps Script) and dist/index.html (for GitHub Pages)
 fs.writeFileSync(path.join(distDir, 'Index.html'), html, 'utf8');
