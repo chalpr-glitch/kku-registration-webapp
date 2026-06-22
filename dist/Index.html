@@ -2024,12 +2024,12 @@ function selectPerson(person) {
         <label>สังกัด/ฝ่ายงาน</label>
         <span>${person.department || '-'}</span>
       </div>
-      <div class="profile-field" style="grid-column: span 2;">
+      <div class="profile-field" style="grid-column: 1 / -1;">
         <label>อีเมล</label>
         <span>${person.email || '-'}</span>
       </div>
       ${isRegistered ? `
-        <div class="profile-field" style="grid-column: span 2; margin-top: 12px; padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; color: #10b981; display: flex; align-items: center; gap: 8px;">
+        <div class="profile-field" style="grid-column: 1 / -1; margin-top: 12px; padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; color: #10b981; display: flex; align-items: center; gap: 8px;">
           <i data-lucide="info"></i>
           <span>คุณได้ลงทะเบียนเข้าร่วมกิจกรรมนี้เรียบร้อยแล้ว คุณสามารถทำการลงทะเบียนอีกครั้งเพื่อบันทึกซ้ำได้</span>
         </div>
