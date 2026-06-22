@@ -21,11 +21,13 @@ html = html.replace(/<link[^>]*href="style\.css"[^>]*>/i, `<style>\n\/\* inlined
 // Replace <script src="app.js"></script> with <script>...</script>
 html = html.replace(/<script[^>]*src="app\.js"[^>]*><\/script>/i, `<script>\n\/\* inlined app.js \*\/\n${js}\n</script>`);
 
-// 3. Write to dist/Index.html
+// 3. Write to dist/Index.html (for Google Apps Script) and dist/index.html (for GitHub Pages)
 fs.writeFileSync(path.join(distDir, 'Index.html'), html, 'utf8');
+fs.writeFileSync(path.join(distDir, 'index.html'), html, 'utf8');
 
 // 4. Copy Code.gs to dist/Code.gs
 const gsCode = fs.readFileSync(path.join(srcDir, 'Code.gs'), 'utf8');
 fs.writeFileSync(path.join(distDir, 'Code.gs'), gsCode, 'utf8');
 
-console.log('✓ Successfully bundled webapp into dist/Index.html and dist/Code.gs!');
+console.log('✓ Successfully bundled webapp into dist/Index.html, dist/index.html and dist/Code.gs!');
+
