@@ -6,9 +6,12 @@
   "type": "module",
   "scripts": {
     "build": "node build.js",
-    "dev": "npx -y browser-sync start --server 'src' --files 'src/**/*'"
+    "dev": "npx -y browser-sync start --server 'src' --files 'src/**/*'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
-    "browser-sync": "^3.0.3"
+    "browser-sync": "^3.0.3",
+    "gh-pages": "^6.3.0"
   }
 }
