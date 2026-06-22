@@ -715,7 +715,7 @@ function handleAdminLogin() {
     return;
   }
 
-  const email = prompt('กรุณากรอกอีเมล มข. เพื่อเปิดสิทธิ์แก้ไขข้อมูล (เฉพาะ chalpr@kku.ac.th):');
+  const email = prompt('กรุณากรอกอีเมล มข. เพื่อเปิดสิทธิ์แก้ไขข้อมูล:');
   if (!email) return;
 
   const loginBtn = document.getElementById('btn-admin-login');
@@ -746,7 +746,7 @@ function handleAdminLogin() {
       if (isHardcodedAdmin) {
         activateAdminMode(email);
       } else {
-        alert('ขออภัย อีเมลของคุณไม่มีสิทธิ์ในการแก้ไขข้อมูล (สำหรับเครื่องตัวเองให้ใช้อีเมล: chalpr@kku.ac.th)');
+        alert('ขออภัย อีเมลของคุณไม่มีสิทธิ์ในการแก้ไขข้อมูล');
       }
     }, 400);
   }
